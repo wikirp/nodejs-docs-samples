@@ -26,4 +26,9 @@ resources:
   memory_gb: 0.5
   disk_size_gb: 10
 
+
+env_variables:
+  ATLAS_URI: 'mongodb+srv://zero:Soporte__zero@zerocluster.ahi7qe4.mongodb.net/test'
+
+
 # [END gae_flex_quickstart_yaml]

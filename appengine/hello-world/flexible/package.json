@@ -14,13 +14,18 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --exit test/*.test.js"
+    "test": "mocha --exit test/*.test.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "firebase-admin": "^11.0.1",
+    "mongodb": "^4.10.0"
   },
   "devDependencies": {
     "mocha": "^9.0.0",
+    "nodemon": "^2.0.20",
     "supertest": "^6.0.0"
   }
 }
