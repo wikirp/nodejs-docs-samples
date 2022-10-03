@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb')
 
-const connectionString =process.env.ATLAS_URI
+const connectionString = process.env.ATLAS_URI 
 
 const client = new MongoClient(connectionString, {
     useNewUrlParser: true,
@@ -12,6 +12,7 @@ let dbConnection
 module.exports = {
     connectToServer: async (callback) => {
         await client.connect()
+            .catch( err => console.error(err))
 
         dbConnection = client.db('crm')
 
@@ -23,5 +24,9 @@ module.exports = {
 
     getDb: () => {
         return dbConnection
+    },
+
+    closeConnection: () => {
+        client.close()
     }
 }

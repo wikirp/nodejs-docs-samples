@@ -22,7 +22,10 @@ app.use('/api/clientes', (req, res, next) => {
   getAuth()
     .verifyIdToken(token)
     .then((decodeToken) => {
-      req.user = decodeToken.uid;
+      //  Cambiar implementacion a paso de filtro de busqueda 
+      req.user = decodeToken.uid === '2TBSb8RFC5cfYm8yxw07cX7iQyr1' ? 
+        {}
+        :{ asesor_activo: decodeToken.uid };
       next();
     }).catch((_) => {
       res.status(400).json({ error: "Token invalido" });
@@ -30,24 +33,24 @@ app.use('/api/clientes', (req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-  res.status(200).send('Hello, world!').end();
+  res.status(200).send('Hello, monitor!').end()
 });
 
 app.get('/api/clientes/getList', (req, res) => {
   const dbConnect = dbo.getDb()
-
   dbConnect.collection('clientes')
-    .find({})
-    .limit(20)
+    .find(req.user)
     .toArray()
-    .then((resultado, err) => {
-      if (err) {
-        res.status(400).json({ error: "Error al obtener datos" }).send()
-      } else {
+    .then((resultado) => {
         res.status(200).json(resultado).send()
-      }
     }).catch(err => {
-      res.status(400).json({ error: "Error al obtener datos" }).send()
+      console.log(err)
+      res.status(400).json({ 
+        error: "Error al obtener datos 2",
+        data:err 
+      }).send()
+    }).finally(() => {
+      //dbo.closeConnection()
     })
 });
 
@@ -59,12 +62,5 @@ dbo.connectToServer(()=>{
     console.log('Press Ctrl+C to quit.');
   });
 })
-
-
-
-
-// Start the server
-
-// [END gae_flex_quickstart]
 
 module.exports = app;
